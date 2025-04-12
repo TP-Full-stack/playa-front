@@ -1,6 +1,8 @@
 import { Waves } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProductList from "@/components/dashboard/ProductList";
+import BookingList from "@/components/dashboard/BookingList";
+import BookingForm from "@/components/dashboard/BookingManager";
 
 export default function DashboardPage() {
   return (
@@ -51,13 +53,13 @@ export default function DashboardPage() {
             value="reservation"
             className="p-4 bg-white rounded-lg shadow-lg mt-4 w-full"
           >
-            <p className="text-gray-600">Formulario de reserva...</p>
+            <BookingForm />
           </TabsContent>
           <TabsContent
             value="bookings"
             className="p-4 bg-white rounded-lg shadow-lg mt-4 w-full"
           >
-            <p className="text-gray-600">Reservas...</p>
+            <BookingList />
           </TabsContent>
         </Tabs>
       </main>

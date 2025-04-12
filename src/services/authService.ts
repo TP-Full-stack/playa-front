@@ -14,7 +14,13 @@ export async function loginUser(email: string, password: string) {
     throw new Error("Invalid credentials");
   }
 
-  return response.json();
+  const data = await response.json();
+
+  if (data.token) {
+    localStorage.setItem("token", data.token); //Guardar token
+  }
+
+  return data;
 }
 
 export async function registerUser(
