@@ -44,3 +44,60 @@ export async function registerUser(
 
   return response.json();
 }
+
+export async function forgotPassword(email: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/forgot-password`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+      credentials: "include",
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.mensaje || "Failed to send password reset email");
+  }
+
+  return response.json();
+}
+
+export async function resetPassword(
+  resetToken: string,
+  password: string
+): Promise<{
+  success: boolean;
+  mensaje: string;
+  token: string;
+  usuario: { id: string; nombre: string; email: string };
+}> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/reset-password/${resetToken}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.mensaje || "No se pudo restablecer la contraseña"
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    throw new Error(
+      error instanceof Error ? error.message : "Error desconocido"
+    );
+  }
+}
